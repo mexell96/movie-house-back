@@ -7,8 +7,8 @@
     "start": "cross-env NODE_ENV=production node app.js",
     "server": "nodemon app.js",
     "client": "npm run start --prefix ../movie-house",
-    "client:install": "npm install --prefix ../movie-house",
-    "client:build": "npm build --prefix ../movie-house",
+    "client:install": "npm run install --prefix ../movie-house",
+    "client:build": "npm run build --prefix ../movie-house",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\""
   },
   "author": "",
