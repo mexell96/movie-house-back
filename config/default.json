@@ -1,0 +1,6 @@
+{
+  "port": 5000,
+  "jwtSecret": "movieHouse",
+  "mongoUri": "mongodb+srv://artem:1234@cluster0.tfh9b.mongodb.net/moviehouse?retryWrites=true&w=majority",
+  "baseUrl": "http://localhost:5000"
+}
