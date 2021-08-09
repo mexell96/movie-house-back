@@ -7,7 +7,10 @@ const app = express();
 
 app.use(express.json({ extended: true }));
 
-app.use("/api/auth", require("./routes/auth.routes"));
+app.use("/api", require("./routes/register.routes"));
+app.use("/api", require("./routes/login.routes"));
+app.use("/api", require("./routes/users.routes"));
+app.use("/api", require("./routes/user.routes"));
 
 if (process.env.NODE_ENV === "production") {
   app.use("/", express.static(path.join("..", "movie-house", "build")));
@@ -27,7 +30,9 @@ async function start() {
         useUnifiedTopology: true,
         useCreateIndex: true,
       };
-    app.listen(PORT, () => console.log(`Port --- ${PORT}`));
+    app.listen(PORT, () =>
+      console.log(`Server has been started on port --- ${PORT}`)
+    );
   } catch (error) {
     console.log("Server Error ---", error.message);
     process.exit(1);
