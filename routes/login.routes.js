@@ -6,6 +6,16 @@ const { check, validationResult } = require("express-validator");
 const User = require("../models/User");
 const router = Router();
 
+const generateAccessToken = (id, role) => {
+  const payload = {
+    id,
+    role,
+  };
+  return jwt.sign(payload, config.get("jwtSecret"), {
+    expiresIn: "4h",
+  });
+};
+
 // /api/login
 
 router.post(
@@ -42,13 +52,10 @@ router.post(
         });
       }
 
-      const token = jwt.sign({ userId: user.id }, config.get("jwtSecret"), {
-        expiresIn: "1h",
-      });
+      const token = generateAccessToken(user._id, user.role);
 
       res.status(201).json({
         token,
-        userId: user.id,
         message: "You entered",
       });
     } catch (error) {

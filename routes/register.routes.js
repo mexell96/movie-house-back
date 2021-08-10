@@ -2,6 +2,7 @@ const { Router } = require("express");
 const bcrypt = require("bcrypt");
 const { check, validationResult } = require("express-validator");
 const User = require("../models/User");
+const Role = require("../models/Role");
 const router = Router();
 
 // /api/register
@@ -32,7 +33,13 @@ router.post(
       }
 
       const hashedPassword = await bcrypt.hash(password, 12);
-      const user = new User({ name, email, password: hashedPassword });
+      const userRole = await Role.findOne({ value: "USER" });
+      const user = new User({
+        name,
+        email,
+        password: hashedPassword,
+        role: userRole.value,
+      });
 
       await user.save();
 

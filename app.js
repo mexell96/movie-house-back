@@ -3,14 +3,19 @@ const config = require("config");
 const path = require("path");
 const mongoose = require("mongoose");
 
+const register = require("./routes/register.routes");
+const login = require("./routes/login.routes");
+const users = require("./routes/users.routes");
+const user = require("./routes/user.routes");
+
 const app = express();
 
 app.use(express.json({ extended: true }));
 
-app.use("/api", require("./routes/register.routes"));
-app.use("/api", require("./routes/login.routes"));
-app.use("/api", require("./routes/users.routes"));
-app.use("/api", require("./routes/user.routes"));
+app.use("/api", register);
+app.use("/api", login);
+app.use("/api", users);
+app.use("/api", user);
 
 if (process.env.NODE_ENV === "production") {
   app.use("/", express.static(path.join("..", "movie-house", "build")));
