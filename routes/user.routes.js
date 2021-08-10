@@ -23,6 +23,12 @@ router.post(
   [
     check("name", "Minimum length name 2 symbols").isLength({ min: 2 }),
     check("email", "Wrong email").isEmail(),
+    check("oldPassword", "Minimum length password 6 symbols").isLength({
+      min: 6,
+    }),
+    check("newPassword", "Minimum length password 6 symbols").isLength({
+      min: 6,
+    }),
   ],
   async (req, res) => {
     try {
@@ -34,11 +40,28 @@ router.post(
           message: "Incorrect data on updating user",
         });
       }
-      const { name, email } = req.body;
+
+      const { name, email, oldPassword, newPassword } = req.body;
       const user = await User.findById(req.params.id);
+
+      if (!user) {
+        return res.status(400).json({
+          message: "User not found",
+        });
+      }
+
+      const isMatchPassword = await bcrypt.compare(oldPassword, user.password);
+      if (!isMatchPassword) {
+        return res.status(400).json({
+          message: "Wrong password, try again",
+        });
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, 12);
 
       user.name = name;
       user.email = email;
+      user.password = hashedPassword;
 
       await user.save();
       res.status(201).json({ ...user._doc, message: "Updated user" });
