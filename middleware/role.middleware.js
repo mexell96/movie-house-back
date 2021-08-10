@@ -23,7 +23,9 @@ module.exports = (roles) => {
       }
 
       if (!hasRole) {
-        return res.status(403).json({ message: "Role does not access" });
+        return res
+          .status(403)
+          .json({ message: "The role does not have access" });
       }
 
       next();
