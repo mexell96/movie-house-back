@@ -56,7 +56,7 @@ router.post(
 
       res.status(201).json({
         token,
-        user,
+        userId: user.id,
         message: "You entered",
       });
     } catch (error) {
