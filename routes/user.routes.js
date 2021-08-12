@@ -125,4 +125,36 @@ router.patch(
   }
 );
 
+router.patch(
+  "/profile-avatar/:id",
+  authMiddleware,
+  [check("avatar", "Choose avatar").exists()],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array(),
+          message: "Incorrect data avatar on updating user",
+        });
+      }
+      const { avatar } = req.body;
+
+      const user = await User.findById(req.params.id);
+      if (!user) {
+        return res.status(400).json({
+          message: "User not found",
+        });
+      }
+      user.avatar = avatar;
+      await user.save();
+      res.status(201).json({ ...user._doc, message: "Updated user avatar" });
+    } catch (e) {
+      res
+        .status(500)
+        .json({ message: "Something went wrong, please try again later." });
+    }
+  }
+);
+
 module.exports = router;
