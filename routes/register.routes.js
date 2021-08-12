@@ -25,7 +25,7 @@ router.post(
           message: "Incorrect data during registration",
         });
       }
-      const { name, email, password } = req.body;
+      const { name, email, password, upload } = req.body;
       const candidate = await User.findOne({ email });
 
       if (candidate) {
@@ -39,6 +39,12 @@ router.post(
         email,
         password: hashedPassword,
         role: userRole.value,
+        avatar:
+          (upload &&
+            upload.fileList &&
+            upload.fileList[0] &&
+            upload.fileList[0].thumbUrl) ||
+          "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg",
       });
 
       await user.save();
