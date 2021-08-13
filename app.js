@@ -8,6 +8,7 @@ const register = require("./routes/register.routes");
 const login = require("./routes/login.routes");
 const users = require("./routes/users.routes");
 const user = require("./routes/user.routes");
+const reviews = require("./routes/reviews.routes");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/api", register);
 app.use("/api", login);
 app.use("/api", users);
 app.use("/api", user);
+app.use("/api", reviews);
 
 if (process.env.NODE_ENV === "production") {
   app.use("/", express.static(path.join("..", "movie-house", "build")));
