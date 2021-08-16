@@ -157,4 +157,15 @@ router.patch(
   }
 );
 
+router.delete("/delete-user/:id", authMiddleware, async (req, res) => {
+  try {
+    await User.findOneAndDelete(req.params.id);
+    res.status(200).json({ message: "User has been deleted" });
+  } catch (e) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong, please try again later." });
+  }
+});
+
 module.exports = router;
