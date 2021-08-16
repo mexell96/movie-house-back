@@ -6,6 +6,7 @@ const schema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, ref: "Role" },
+    theme: { type: String },
     avatar: { type: String },
     reviews: [{ type: Types.ObjectId, ref: "Review" }],
   },

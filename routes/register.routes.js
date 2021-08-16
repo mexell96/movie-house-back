@@ -39,6 +39,7 @@ router.post(
         email,
         password: hashedPassword,
         role: userRole.value,
+        theme: "light",
         avatar:
           (upload &&
             upload.fileList &&

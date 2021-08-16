@@ -168,4 +168,35 @@ router.delete("/delete-user/:id", authMiddleware, async (req, res) => {
   }
 });
 
+router.patch(
+  "/profile-theme/:id",
+  authMiddleware,
+  [check("theme", "Choose a theme").exists()],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array(),
+          message: "Incorrect data on updating user",
+        });
+      }
+      const { theme } = req.body;
+      const user = await User.findById(req.params.id);
+      if (!user) {
+        return res.status(400).json({
+          message: "User not found",
+        });
+      }
+      user.theme = theme;
+      await user.save();
+      res.status(201).json({ ...user._doc, message: "Updated user theme" });
+    } catch (e) {
+      res
+        .status(500)
+        .json({ message: "Something went wrong, please try again later." });
+    }
+  }
+);
+
 module.exports = router;
