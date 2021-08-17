@@ -2,6 +2,7 @@ const { Router } = require("express");
 const bcrypt = require("bcrypt");
 const router = Router();
 const User = require("../models/User");
+const Review = require("../models/Review");
 const authMiddleware = require("../middleware/auth.middleware");
 const { check, validationResult } = require("express-validator");
 
@@ -198,5 +199,27 @@ router.patch(
     }
   }
 );
+
+router.get("/profile-reviews/:id", authMiddleware, async (req, res) => {
+  try {
+    const reviews = await Review.find({ owner: req.params.id });
+    res.status(200).json(reviews);
+  } catch (e) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong, please try again later." });
+  }
+});
+
+router.delete("/profile-reviews/:id", authMiddleware, async (req, res) => {
+  try {
+    await Review.findOneAndDelete({ uid: req.params.id });
+    res.status(200).json({ message: "Review has been deleted" });
+  } catch (e) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong, please try again later." });
+  }
+});
 
 module.exports = router;
