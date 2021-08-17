@@ -1,12 +1,10 @@
 const { Router } = require("express");
 const Review = require("../models/Review");
 const router = Router();
-const authMiddleware = require("../middleware/auth.middleware");
 const { check, validationResult } = require("express-validator");
 
 router.post(
   "/create-review",
-  authMiddleware,
   [
     check("avatar", "Choose avatar").exists(),
     check("movieId", "Choose movie").exists(),
@@ -14,6 +12,7 @@ router.post(
     check("rating", "Specify the rating").exists(),
     check("review", "Minimum length review 2 symbols").isLength({ min: 2 }),
     check("uid", "Minimum length uid 2 symbols").isLength({ min: 2 }),
+    check("owner", "Specify the user").exists(),
   ],
   async (req, res) => {
     try {
@@ -27,11 +26,9 @@ router.post(
       }
 
       const newReview = req.body;
-      console.log(req.user.id, "req.user.id 555");
 
       const review = new Review({
         ...newReview,
-        owner: req.user.id,
       });
 
       await review.save();
@@ -40,9 +37,20 @@ router.post(
     } catch (error) {
       res
         .status(500)
-        .json({ message: `Something register error - ${error.message}` });
+        .json({ message: `Create review - error ${error.message}` });
     }
   }
 );
+
+router.get("/reviews/:id", async (req, res) => {
+  try {
+    const reviews = await Review.find({ movieId: req.params.id });
+    res.status(200).json(reviews);
+  } catch (e) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong, please try again later." });
+  }
+});
 
 module.exports = router;
