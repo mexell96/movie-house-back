@@ -9,7 +9,7 @@ router.post(
   authMiddleware,
   [
     check("avatar", "Choose avatar").exists(),
-    check("date", "Specify the date").exists(),
+    check("movieId", "Choose movie").exists(),
     check("name", "Minimum length name 2 symbols").isLength({ min: 2 }),
     check("rating", "Specify the rating").exists(),
     check("review", "Minimum length review 2 symbols").isLength({ min: 2 }),
@@ -33,8 +33,6 @@ router.post(
         ...newReview,
         owner: req.user.id,
       });
-
-      console.log(review, "reviews 888");
 
       await review.save();
 

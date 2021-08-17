@@ -1,4 +1,4 @@
-const { Schema, model, Types } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const schema = new Schema(
   {
@@ -8,7 +8,6 @@ const schema = new Schema(
     role: { type: String, ref: "Role" },
     theme: { type: String },
     avatar: { type: String },
-    reviews: [{ type: Types.ObjectId, ref: "Review" }],
   },
   { timestamps: true }
 );
