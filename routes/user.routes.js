@@ -4,6 +4,7 @@ const router = Router();
 const User = require("../models/User");
 const Review = require("../models/Review");
 const authMiddleware = require("../middleware/auth.middleware");
+const roleMiddleware = require("../middleware/role.middleware");
 const { check, validationResult } = require("express-validator");
 
 // /api/profile/${id}
@@ -221,5 +222,36 @@ router.delete("/profile-reviews/:id", authMiddleware, async (req, res) => {
       .json({ message: "Something went wrong, please try again later." });
   }
 });
+
+router.patch(
+  "/profile-role/:id",
+  roleMiddleware(["ADMIN"]),
+  [check("role", "Choose another role").exists()],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array(),
+          message: "Incorrect data on updating user role",
+        });
+      }
+      const { role } = req.body;
+      const user = await User.findById(req.params.id);
+      if (!user) {
+        return res.status(400).json({
+          message: "User not found",
+        });
+      }
+      user.role = role;
+      await user.save();
+      res.status(201).json({ message: "Updated user role" });
+    } catch (e) {
+      res
+        .status(500)
+        .json({ message: "Something went wrong, please try again later." });
+    }
+  }
+);
 
 module.exports = router;
