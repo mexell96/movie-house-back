@@ -3,6 +3,7 @@ const { Schema, model } = require("mongoose");
 const schema = new Schema(
   {
     avatar: { type: String, required: true },
+    movie: { type: String, required: true },
     movieId: { type: String, required: true },
     name: { type: String, required: true },
     rating: { type: Number, required: true },

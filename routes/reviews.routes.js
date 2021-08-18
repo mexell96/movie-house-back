@@ -7,6 +7,7 @@ router.post(
   "/create-review",
   [
     check("avatar", "Choose avatar").exists(),
+    check("movie", "Choose movie").exists(),
     check("movieId", "Choose movie").exists(),
     check("name", "Minimum length name 2 symbols").isLength({ min: 2 }),
     check("rating", "Specify the rating").exists(),
