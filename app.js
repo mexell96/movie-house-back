@@ -3,6 +3,7 @@ const config = require("config");
 const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const register = require("./routes/register.routes");
 const login = require("./routes/login.routes");
@@ -11,7 +12,7 @@ const user = require("./routes/user.routes");
 const reviews = require("./routes/reviews.routes");
 
 const app = express();
-
+app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
