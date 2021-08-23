@@ -13,8 +13,6 @@ module.exports = (roles) => {
       }
 
       const { role } = jwt.verify(token, config.get("jwtSecret"));
-      console.log(role, "role");
-      console.log(roles, "roles");
 
       let hasRole = false;
 
