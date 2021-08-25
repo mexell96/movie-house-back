@@ -36,15 +36,15 @@ router.post(
       }
 
       const { email, password } = req.body;
-      const user = await User.findOne({ email });
+      const fullUser = await User.findOne({ email });
 
-      if (!user) {
+      if (!fullUser) {
         return res.status(400).json({
           message: "User not found",
         });
       }
 
-      const isMatchPassword = await bcrypt.compare(password, user.password);
+      const isMatchPassword = await bcrypt.compare(password, fullUser.password);
 
       if (!isMatchPassword) {
         return res.status(400).json({
@@ -52,11 +52,21 @@ router.post(
         });
       }
 
-      const token = generateAccessToken(user._id, user.role);
+      const token = generateAccessToken(fullUser._id, fullUser.role);
+
+      const user = {
+        avatar: fullUser.avatar,
+        createdAt: fullUser.createdAt,
+        email: fullUser.email,
+        name: fullUser.name,
+        role: fullUser.role,
+        theme: fullUser.theme,
+        updatedAt: fullUser.updatedAt,
+        _id: fullUser._id,
+      };
 
       res.status(201).json({
         token,
-        userId: user.id,
         user,
         message: "You entered",
       });

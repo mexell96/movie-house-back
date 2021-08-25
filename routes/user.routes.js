@@ -6,12 +6,27 @@ const Review = require("../models/Review");
 const authMiddleware = require("../middleware/auth.middleware");
 const roleMiddleware = require("../middleware/role.middleware");
 const { check, validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
+const config = require("config");
 
 // /api/profile/${id}
 
-router.get("/profile/:id", authMiddleware, async (req, res) => {
+router.post("/profile", authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const { token } = req.body;
+    const { id } = jwt.verify(token, config.get("jwtSecret"));
+    const fullUser = await User.findById(id);
+
+    const user = {
+      avatar: fullUser.avatar,
+      createdAt: fullUser.createdAt,
+      email: fullUser.email,
+      name: fullUser.name,
+      role: fullUser.role,
+      theme: fullUser.theme,
+      updatedAt: fullUser.updatedAt,
+      _id: fullUser._id,
+    };
     res.status(200).json(user);
   } catch (e) {
     res
