@@ -11,9 +11,9 @@ const config = require("config");
 
 // /api/profile/${id}
 
-router.post("/profile", authMiddleware, async (req, res) => {
+router.get("/profile", authMiddleware, async (req, res) => {
   try {
-    const { token } = req.body;
+    const token = req.headers.authorization.split(" ")[1];
     const { id } = jwt.verify(token, config.get("jwtSecret"));
     const fullUser = await User.findById(id);
 
