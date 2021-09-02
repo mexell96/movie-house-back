@@ -1,11 +1,11 @@
 const Router = require("express").Router;
+const router = new Router();
+
 const userController = require("../controllers/user-controllers");
 const reviewController = require("../controllers/review-controllers");
-
-const router = new Router();
-const { check } = require("express-validator");
 const authMiddleware = require("../middleware/auth.middleware");
 const roleMiddleware = require("../middleware/role.middleware");
+const { check } = require("express-validator");
 
 router.post(
   "/registration",
@@ -24,7 +24,7 @@ router.post(
   ],
   userController.login
 );
-router.post("/logout", userController.logout);
+router.get("/logout", userController.logout);
 router.get("/activate/:link", userController.activate);
 router.get("/refresh", userController.refresh);
 router.post(

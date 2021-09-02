@@ -9,7 +9,7 @@ class UserController {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(
-          ApiError.BadRequest("Error on registration", errors.array())
+          ApiError.BadRequest("Error during registration", errors.array())
         );
       }
       const { name, email, password, upload } = req.body;
@@ -36,7 +36,7 @@ class UserController {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return next(ApiError.BadRequest("Error on login", errors.array()));
+        return next(ApiError.BadRequest("Error during login", errors.array()));
       }
       const { email, password } = req.body;
       const userData = await userService.login(email, password);
@@ -123,7 +123,7 @@ class UserController {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(
-          ApiError.BadRequest("Error with change name", errors.array())
+          ApiError.BadRequest("Error during change name", errors.array())
         );
       }
       const { name } = req.body;
@@ -140,7 +140,7 @@ class UserController {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(
-          ApiError.BadRequest("Error with change email", errors.array())
+          ApiError.BadRequest("Error during change email", errors.array())
         );
       }
       const { email } = req.body;
@@ -157,7 +157,7 @@ class UserController {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(
-          ApiError.BadRequest("Error with change theme", errors.array())
+          ApiError.BadRequest("Error during change theme", errors.array())
         );
       }
       const { theme } = req.body;
@@ -174,7 +174,7 @@ class UserController {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(
-          ApiError.BadRequest("Error with change role", errors.array())
+          ApiError.BadRequest("Error during change role", errors.array())
         );
       }
       const { role } = req.body;
@@ -201,7 +201,7 @@ class UserController {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(
-          ApiError.BadRequest("Error with change password", errors.array())
+          ApiError.BadRequest("Error during change password", errors.array())
         );
       }
       const { oldPassword, newPassword } = req.body;
@@ -222,7 +222,7 @@ class UserController {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(
-          ApiError.BadRequest("Error with change avatar", errors.array())
+          ApiError.BadRequest("Error during change avatar", errors.array())
         );
       }
       const { avatar } = req.body;

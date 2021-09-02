@@ -1,5 +1,6 @@
-const reviewService = require("../service/review-service");
 const { validationResult } = require("express-validator");
+
+const reviewService = require("../service/review-service");
 const ApiError = require("../exceptions/api-error");
 
 class ReviewController {

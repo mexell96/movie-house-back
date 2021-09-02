@@ -1,7 +1,8 @@
-const UserModel = require("../models/user-model");
-const ReviewModel = require("../models/review-model");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
+
+const UserModel = require("../models/user-model");
+const ReviewModel = require("../models/review-model");
 const mailService = require("./mail-service");
 const tokenService = require("./token-service");
 const UserDto = require("../dto/user-dto");
