@@ -129,7 +129,7 @@ class UserController {
       const { name } = req.body;
       const id = req.params.id;
       const user = await userService.changeName(name, id);
-      res.status(201).json({ ...user._doc, message: "Updated user name" });
+      res.status(201).json({ ...user, message: "Updated user name" });
     } catch (e) {
       next(e);
     }
@@ -146,7 +146,7 @@ class UserController {
       const { email } = req.body;
       const id = req.params.id;
       const user = await userService.changeEmail(email, id);
-      res.status(201).json({ ...user._doc, message: "Updated user email" });
+      res.status(201).json({ ...user, message: "Updated user email" });
     } catch (e) {
       next(e);
     }
@@ -163,7 +163,7 @@ class UserController {
       const { theme } = req.body;
       const id = req.params.id;
       const user = await userService.changeTheme(theme, id);
-      res.status(201).json({ ...user._doc, message: "Updated user theme" });
+      res.status(201).json({ ...user, message: "Updated user theme" });
     } catch (e) {
       next(e);
     }
@@ -180,7 +180,7 @@ class UserController {
       const { role } = req.body;
       const id = req.params.id;
       const user = await userService.changeRole(role, id);
-      res.status(201).json({ ...user._doc, message: "Updated user role" });
+      res.status(201).json({ ...user, message: "Updated user role" });
     } catch (e) {
       next(e);
     }
@@ -228,7 +228,7 @@ class UserController {
       const { avatar } = req.body;
       const id = req.params.id;
       const user = await userService.changeAvatar(avatar, id);
-      res.status(201).json({ ...user._doc, message: "Updated user avatar" });
+      res.status(201).json({ ...user, message: "Updated user avatar" });
     } catch (e) {
       next(e);
     }

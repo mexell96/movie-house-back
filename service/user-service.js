@@ -50,6 +50,7 @@ class UserService {
     user.isActivated = true;
     await user.save();
   }
+
   async login(email, password) {
     const user = await UserModel.findOne({ email });
     if (!user) {
@@ -90,7 +91,11 @@ class UserService {
 
   async getAllUsers() {
     const users = await UserModel.find();
-    return users;
+    const newUsers = users.map((user) => {
+      const userDto = new UserDto(user);
+      return userDto;
+    });
+    return newUsers;
   }
 
   async userReviews(id) {
@@ -111,7 +116,8 @@ class UserService {
     }
     user.name = name;
     await user.save();
-    return user;
+    const userDto = new UserDto(user);
+    return { ...userDto };
   }
 
   async changeEmail(email, id) {
@@ -123,7 +129,8 @@ class UserService {
     }
     user.email = email;
     await user.save();
-    return user;
+    const userDto = new UserDto(user);
+    return { ...userDto };
   }
 
   async changeTheme(theme, id) {
@@ -135,7 +142,8 @@ class UserService {
     }
     user.theme = theme;
     await user.save();
-    return user;
+    const userDto = new UserDto(user);
+    return { ...userDto };
   }
 
   async changeRole(role, id) {
@@ -147,7 +155,8 @@ class UserService {
     }
     user.role = role;
     await user.save();
-    return user;
+    const userDto = new UserDto(user);
+    return { ...userDto };
   }
 
   async deleteUser(id) {
@@ -182,7 +191,8 @@ class UserService {
     }
     user.avatar = avatar;
     await user.save();
-    return user;
+    const userDto = new UserDto(user);
+    return { ...userDto };
   }
 }
 
