@@ -1,5 +1,6 @@
-const userService = require("../service/user-service");
 const { validationResult } = require("express-validator");
+
+const userService = require("../service/user-service");
 const ApiError = require("../exceptions/api-error");
 
 class UserController {
@@ -19,7 +20,12 @@ class UserController {
         upload
       );
       res.cookie("refreshToken", userData.refreshToken),
-        { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true };
+        {
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+          sameSite: "none",
+          secure: true,
+        };
       return res.json({ message: "You registered", ...userData });
     } catch (error) {
       next(error);
