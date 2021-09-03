@@ -160,7 +160,7 @@ class UserService {
   }
 
   async deleteUser(id) {
-    await User.findOneAndDelete(id);
+    await UserModel.findOneAndDelete(id);
   }
 
   async changePassword(oldPassword, newPassword, id) {
