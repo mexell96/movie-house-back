@@ -8,6 +8,28 @@ const errorMiddleware = require("./middleware/error.middleware");
 
 const PORT = process.env.PORT || 5000;
 const app = express();
+const WSServer = require("express-ws")(app);
+const aWss = WSServer.getWss();
+
+const review = (ws, msg) => {
+  aWss.clients.forEach((client) => {
+    client.send(JSON.stringify(msg));
+  });
+};
+
+app.ws("/", (ws, req) => {
+  ws.send(JSON.stringify("You connected"));
+  ws.on("message", (msg) => {
+    msg = JSON.parse(msg);
+    switch (msg.method) {
+      case "review":
+        review(ws, msg);
+        break;
+      default:
+        console.log("Some error");
+    }
+  });
+});
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
